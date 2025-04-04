@@ -4,8 +4,11 @@ import { View, Text, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { RootStackParamList } from 'types/navigation';
 
+import { useSongs } from '@/hooks/useSongs';
+
 export function HomeScreen() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  const { songs, isLoading, error } = useSongs();
 
   return (
     <SafeAreaView className="flex-1 bg-white">
