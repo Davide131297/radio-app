@@ -10,11 +10,6 @@ export function HomeScreen() {
   return (
     <SafeAreaView className="flex-1 bg-white">
       <ScrollView>
-        <View className="bg-gray-50 p-5">
-          <Text className="text-2xl font-bold text-gray-800">Radio App</Text>
-          <Text className="mt-1 text-base text-gray-600">Your favorite stations</Text>
-        </View>
-
         <View className="p-5">
           <View className="rounded-xl bg-white p-4 shadow-md">
             <Text className="text-lg font-semibold text-gray-800">Featured Station</Text>
