@@ -15,13 +15,6 @@ export function HomeScreen() {
           <Text className="mt-1 text-base text-gray-600">Your favorite stations</Text>
         </View>
 
-        <View className="p-5">
-          <View className="rounded-xl bg-white p-4 shadow-md">
-            <Text className="text-lg font-semibold text-gray-800">Featured Station</Text>
-            <Text className="mt-1 text-sm text-gray-600">98.1 MHz</Text>
-          </View>
-        </View>
-
         <View>
           <Button onPress={() => navigation.navigate('SecondScreen')}>Go to Details</Button>
         </View>
