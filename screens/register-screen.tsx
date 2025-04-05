@@ -17,12 +17,13 @@ export function RegisterScreen() {
   const [showPasswordRepeat, setShowPasswordRepeat] = useState<boolean>(false);
 
   const [email, setEmail] = useState<string>('');
+  const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [passwordRepeat, setPasswordRepeat] = useState<string>('');
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const { register, error, loading } = useAuth();
+  const { register, error, loading, user } = useAuth();
 
   const handleStatePassword = () => {
     setShowPassword((showState: boolean) => {
@@ -37,15 +38,15 @@ export function RegisterScreen() {
   };
 
   useEffect(() => {
-    if (email && password && passwordRepeat && password === passwordRepeat) {
+    if (email && username && password && passwordRepeat && password === passwordRepeat) {
       setIsDisabled(false);
     }
-  }, [email, password, passwordRepeat]);
+  }, [email, username, password, passwordRepeat]);
 
   async function handlePress() {
-    if (email && password && passwordRepeat && password === passwordRepeat) {
-      await register(email, password);
-      if (error) {
+    if (email && username && password && passwordRepeat && password === passwordRepeat) {
+      await register(email, password, username);
+      if (!user) {
         setErrorMessage('Registrierung fehlgeschlagen: ' + error);
         setErrorMessage('Registrierung fehlgeschlagen: Kein Benutzer zurückgegeben');
         console.log(error);
@@ -68,6 +69,11 @@ export function RegisterScreen() {
         {/* Email Input */}
         <Input variant="outline" size="md" isDisabled={false} isInvalid={false} isReadOnly={false}>
           <InputField placeholder="Deine Email" value={email} onChangeText={setEmail} />
+        </Input>
+
+        {/* Username Input */}
+        <Input variant="outline" size="md" isDisabled={false} isInvalid={false} isReadOnly={false}>
+          <InputField placeholder="Dein Name" value={username} onChangeText={setUsername} />
         </Input>
 
         {/* Password Input */}

@@ -74,7 +74,12 @@ export function LoginScreen() {
         <View className="flex flex-col gap-8">
           {/* Login Button */}
           {!loading ? (
-            <Button size="md" variant="solid" action="primary" onPress={handleLogin}>
+            <Button
+              size="md"
+              variant="solid"
+              action="primary"
+              disabled={isDisabled}
+              onPress={handleLogin}>
               <ButtonText>Anmelden</ButtonText>
             </Button>
           ) : (
@@ -90,7 +95,6 @@ export function LoginScreen() {
             size="md"
             variant="link"
             action="primary"
-            disabled={isDisabled}
             onPress={() => navigation.navigate('RegisterScreen')}>
             <ButtonText>Hier klicken falls du noch keinen Account hast</ButtonText>
           </Button>

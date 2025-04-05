@@ -52,7 +52,7 @@ export const useAuth = () => {
     });
   };
 
-  const register = async (email: string, password: string) => {
+  const register = async (email: string, password: string, username: string) => {
     setAuthState((prev) => ({ ...prev, loading: true }));
     const { data, error } = await supabase.auth.signUp({ email, password });
 
@@ -74,11 +74,30 @@ export const useAuth = () => {
       return;
     }
 
-    setAuthState({
-      user: data.user,
-      error: null,
-      loading: false,
-    });
+    if (data?.user) {
+      const { error } = await supabase.from('users').insert([
+        {
+          id: data.user.id,
+          user_name: username,
+        },
+      ]);
+
+      if (error) {
+        console.error('Error inserting user into database:', error, data);
+        setAuthState({
+          user: null,
+          error: error.message,
+          loading: false,
+        });
+        return;
+      }
+
+      setAuthState({
+        user: data.user,
+        error: null,
+        loading: false,
+      });
+    }
   };
 
   const logout = async () => {
