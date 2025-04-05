@@ -7,7 +7,7 @@ type Songs = {
   title: string;
   artist: string;
   album: string;
-  duration: number;
+  duration: number; // in seconds
   created_at: string;
 };
 

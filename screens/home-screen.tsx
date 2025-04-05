@@ -8,8 +8,9 @@ import { useSongs } from '@/hooks/useSongs';
 
 export function HomeScreen() {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  const { songs, isLoading, error } = useSongs();
+  const { songs } = useSongs();
 
+  console.log('songs', songs);
   return (
     <SafeAreaView className="flex-1 bg-white">
       <ScrollView>
