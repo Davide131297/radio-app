@@ -6,7 +6,8 @@ import colors from 'tailwindcss/colors';
 import { RootStackParamList } from 'types/navigation';
 
 import { Button, ButtonText, ButtonSpinner } from '@/components/ui/button';
-import { EyeIcon, EyeOffIcon } from '@/components/ui/icon';
+import { Checkbox, CheckboxIndicator, CheckboxLabel, CheckboxIcon } from '@/components/ui/checkbox';
+import { EyeIcon, EyeOffIcon, CheckIcon } from '@/components/ui/icon';
 import { Input, InputField, InputIcon, InputSlot } from '@/components/ui/input';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -20,6 +21,7 @@ export function RegisterScreen() {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [passwordRepeat, setPasswordRepeat] = useState<string>('');
+  const [isChecked, setIsChecked] = useState<boolean>(false);
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -45,7 +47,7 @@ export function RegisterScreen() {
 
   async function handlePress() {
     if (email && username && password && passwordRepeat && password === passwordRepeat) {
-      await register(email, password, username);
+      await register(email, password, username, isChecked);
       if (!user) {
         setErrorMessage('Registrierung fehlgeschlagen: ' + error);
         setErrorMessage('Registrierung fehlgeschlagen: Kein Benutzer zurückgegeben');
@@ -101,6 +103,19 @@ export function RegisterScreen() {
             <InputIcon as={showPasswordRepeat ? EyeIcon : EyeOffIcon} />
           </InputSlot>
         </Input>
+
+        <Checkbox
+          size="md"
+          isInvalid={false}
+          isDisabled={false}
+          isChecked={isChecked}
+          value=""
+          onChange={() => setIsChecked(!isChecked)}>
+          <CheckboxIndicator>
+            <CheckboxIcon as={CheckIcon} />
+          </CheckboxIndicator>
+          <CheckboxLabel>Als Moderator anmelden?</CheckboxLabel>
+        </Checkbox>
 
         <View className="flex flex-col gap-8">
           {/* Register Button */}

@@ -52,7 +52,12 @@ export const useAuth = () => {
     });
   };
 
-  const register = async (email: string, password: string, username: string) => {
+  const register = async (
+    email: string,
+    password: string,
+    username: string,
+    isChecked: boolean | null
+  ) => {
     setAuthState((prev) => ({ ...prev, loading: true }));
     const { data, error } = await supabase.auth.signUp({ email, password });
 
@@ -79,6 +84,7 @@ export const useAuth = () => {
         {
           id: data.user.id,
           user_name: username,
+          role: isChecked ? 'moderator' : 'hörer',
         },
       ]);
 
