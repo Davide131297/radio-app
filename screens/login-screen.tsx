@@ -33,15 +33,10 @@ export function LoginScreen() {
 
   async function handleLogin() {
     if (email && password) {
-      await login(email, password);
+      await login(email.toLowerCase(), password);
       if (error) {
         setErrorMessage('Login fehlgeschlagen: ' + error);
         console.log(error);
-      } else {
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'TabNavigator' }],
-        });
       }
     } else {
       setErrorMessage('Bitte fülle alle Felder aus');
