@@ -1,6 +1,7 @@
 export type Ratings = {
-  song_id: number | null;
-  moderator_id: number | null;
-  user_id: number;
-  rating: number;
+  id: number; // ID des Ratings
+  created_at: string | null; // Zeitstempel der Erstellung
+  song_id: number | null; // ID des Songs
+  moderator_id: string | null; // ID des Moderators
+  rating: number; // Bewertung
 };
