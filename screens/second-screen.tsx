@@ -13,21 +13,13 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { useToast, Toast } from '@/components/ui/toast';
 import { useSong } from '@/context/SongContext';
-import GetRate from '@/funtions/get-rate';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/initSupabase';
-import type { Ratings } from '@/types/db-types';
 
 export function SecondScreen() {
-  const [rating, setRating] = useState<Ratings | null>(null);
   const { user } = useAuth();
   const { currentlyPlayingSong } = useSong();
-
-  useEffect(() => {
-    getRating();
-  }, [user]);
 
   useEffect(() => {
     console.log('Currently Playing Song:', currentlyPlayingSong);
@@ -48,18 +40,6 @@ export function SecondScreen() {
     return () => clearInterval(interval);
   }, []);
 
-  function getRating() {
-    if (user?.id) {
-      try {
-        GetRate({ id: user?.id }).then((data) => {
-          setRating(data);
-          //console.log('Rating data:', data);
-        });
-      } catch (error) {
-        console.error('Error fetching rating:', error);
-      }
-    }
-  }
   const [playlistRating, setPlaylistRating] = useState<number | null>(null);
   const [hostRating, setHostRating] = useState<number | null>(null);
   const [songRequest, setSongRequest] = useState<string>('');
