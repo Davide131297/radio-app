@@ -7,7 +7,8 @@ type Songs = {
   title: string;
   artist: string;
   album: string;
-  duration: number; // in seconds
+  duration: number;
+  imageUrl: string;
   created_at: string;
 };
 

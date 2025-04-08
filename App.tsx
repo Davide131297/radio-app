@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { TabNavigator } from './components/tab-navigator';
+import { SongProvider } from './context/SongContext';
 import { LoginScreen } from './screens/login-screen';
 import { RegisterScreen } from './screens/register-screen';
 
@@ -51,16 +52,18 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <GluestackUIProvider mode="light">
-        <NavigationContainer>
-          {isAuthenticated ? (
-            <TabNavigator />
-          ) : (
-            <Stack.Navigator screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="LoginScreen" component={LoginScreen} />
-              <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
-            </Stack.Navigator>
-          )}
-        </NavigationContainer>
+        <SongProvider>
+          <NavigationContainer>
+            {isAuthenticated ? (
+              <TabNavigator />
+            ) : (
+              <Stack.Navigator screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="LoginScreen" component={LoginScreen} />
+                <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+              </Stack.Navigator>
+            )}
+          </NavigationContainer>
+        </SongProvider>
       </GluestackUIProvider>
     </SafeAreaProvider>
   );

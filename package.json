@@ -11,7 +11,9 @@
     "web": "DARK_MODE=media expo start --web"
   },
   "dependencies": {
+    "@expo-google-fonts/roboto": "^0.3.0",
     "@expo/metro-runtime": "~4.0.1",
+    "@expo/vector-icons": "^14.0.2",
     "@gluestack-ui/button": "^1.0.14",
     "@gluestack-ui/checkbox": "^0.1.39",
     "@gluestack-ui/icon": "^0.1.27",
@@ -19,6 +21,7 @@
     "@gluestack-ui/nativewind-utils": "^1.0.26",
     "@gluestack-ui/overlay": "^0.1.22",
     "@gluestack-ui/toast": "^1.0.9",
+    "@legendapp/motion": "^2.4.0",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-navigation/bottom-tabs": "^7.3.8",
     "@react-navigation/native": "^7.1.4",
@@ -27,6 +30,7 @@
     "@supabase/supabase-js": "^2.49.4",
     "babel-plugin-module-resolver": "^5.0.2",
     "expo": "^52.0.44",
+    "expo-linear-gradient": "~14.0.2",
     "expo-status-bar": "~2.0.1",
     "nativewind": "^4.1.23",
     "react": "18.3.1",
