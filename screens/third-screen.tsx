@@ -166,7 +166,7 @@ export function ThirdScreen() {
                 <View key={rating.id} className="mb-4 rounded-lg bg-gray-50 p-4 shadow-sm">
                   {rating.moderator_id && (
                     <Text className="text-lg font-bold text-gray-800">
-                      Bewertung für: {rating.users.user_name}
+                      Bewertung von: {rating.users.user_name}
                     </Text>
                   )}
                   {rating.song_id && (
