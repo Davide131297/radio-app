@@ -28,7 +28,6 @@ export default function FourthScreen() {
         }
 
         if (data) {
-          console.log('User data:', data);
           const userData = {
             ...user,
             user_name: data.user_name,
