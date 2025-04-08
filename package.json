@@ -30,6 +30,7 @@
     "@react-navigation/stack": "^7.2.8",
     "@supabase/supabase-js": "^2.49.4",
     "babel-plugin-module-resolver": "^5.0.2",
+    "date-fns": "^4.1.0",
     "expo": "^52.0.44",
     "expo-linear-gradient": "~14.0.2",
     "expo-status-bar": "~2.0.1",

@@ -1,3 +1,4 @@
+import { format, parseISO } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { View, Image, ScrollView, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -62,7 +63,10 @@ export function ThirdScreen() {
       if (ratingsError) {
         console.error('Error fetching ratings:', ratingsError);
       } else {
-        setRatings(ratingsData || []);
+        const sortedRatings = (ratingsData || []).sort(
+          (a, b) => new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime()
+        );
+        setRatings(sortedRatings);
       }
 
       const { data: requestsData, error: requestsError } = await supabase.from('requests').select(`
@@ -77,7 +81,10 @@ export function ThirdScreen() {
       if (requestsError) {
         console.error('Error fetching requests:', requestsError);
       } else {
-        setRequests(requestsData || []);
+        const sortedRequests = (requestsData || []).sort(
+          (a, b) => new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime()
+        );
+        setRequests(sortedRequests);
       }
     };
 
@@ -178,6 +185,12 @@ export function ThirdScreen() {
                     <Text className="font-bold">Rating:</Text> {'⭐'.repeat(rating.rating)} (
                     {rating.rating}/5)
                   </Text>
+                  <Text className="text-sm text-gray-800">
+                    <Text className="font-bold">Vom:</Text>{' '}
+                    {rating.created_at
+                      ? format(parseISO(rating.created_at), "dd.MM.yyyy HH:mm 'Uhr'")
+                      : 'Unbekannt'}
+                  </Text>
                 </View>
               ))
             ) : (
@@ -198,6 +211,12 @@ export function ThirdScreen() {
                   <Text className="text-sm text-gray-800">
                     <Text className="font-bold">Username:</Text>
                     {request.users.user_name}
+                  </Text>
+                  <Text className="text-sm text-gray-800">
+                    <Text className="font-bold">Vom:</Text>{' '}
+                    {request.created_at
+                      ? format(parseISO(request.created_at), "dd.MM.yyyy HH:mm 'Uhr'")
+                      : 'Unbekannt'}
                   </Text>
                 </View>
               ))
