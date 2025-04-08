@@ -10,7 +10,7 @@ export function ThirdScreen() {
   return (
     <SafeAreaView className="flex-1 bg-white">
       <ScrollView>
-        <View className="bg-gray-50 p-5">
+        <View className="bg-green-50 p-5">
           <Text className="text-2xl font-bold text-gray-800">Radio App</Text>
           <Text className="mt-1 text-base text-gray-600">Third Sceen</Text>
         </View>
