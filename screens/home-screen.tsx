@@ -1,7 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Roboto_500Medium, Roboto_400Regular } from '@expo-google-fonts/roboto';
-import { Button } from '@react-navigation/elements';
-import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { useEffect, useState, useRef } from 'react';
 import {
@@ -14,10 +12,12 @@ import {
   TouchableOpacity,
   Animated,
 } from 'react-native';
-import { RootStackParamList } from 'types/navigation';
 
 import { useSong } from '@/context/SongContext';
 import { useSongs } from '@/hooks/useSongs';
+import { useAuth } from '@/hooks/useAuth';
+
+import { Button, ButtonText } from '@/components/ui/button';
 
 const LiveIndicator = () => (
   <View style={styles.liveContainer}>
@@ -76,7 +76,6 @@ const formatTime = (seconds: number) => {
 };
 
 export function HomeScreen() {
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [fontsLoaded] = useFonts({
     Roboto_500Medium,
     Roboto_400Regular,
@@ -88,6 +87,8 @@ export function HomeScreen() {
 
   const [elapsedTime, setElapsedTime] = useState(0);
   const progressAnim = useRef(new Animated.Value(0)).current;
+
+  const { logout, error } = useAuth();
 
   useEffect(() => {
     if (!songs || songs.length === 0) return;
@@ -138,6 +139,13 @@ export function HomeScreen() {
     outputRange: ['0%', '100%'],
   });
 
+  async function handleLogout() {
+    await logout();
+    if (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -152,6 +160,9 @@ export function HomeScreen() {
             resizeMode="contain"
           />
           <LiveIndicator />
+          <Button onPress={handleLogout} className="bg-red-500">
+            <ButtonText className="text-white">Logout</ButtonText>
+          </Button>
         </View>
 
         <View style={styles.songInfoContainer}>
@@ -198,12 +209,6 @@ export function HomeScreen() {
         </View>
         <View style={styles.spacer} />
       </ScrollView>
-
-      <View style={styles.bottomButtonContainer}>
-        <Button onPress={() => navigation.navigate('SecondScreen')} style={styles.button}>
-          Go to Reviews
-        </Button>
-      </View>
     </SafeAreaView>
   );
 }
@@ -318,12 +323,6 @@ const styles = StyleSheet.create({
   },
   spacer: {
     flex: 1,
-  },
-  bottomButtonContainer: {
-    padding: 20,
-    backgroundColor: '#ffffff',
-    borderTopWidth: 1,
-    borderTopColor: '#eee',
   },
   button: {
     backgroundColor: '#46CDCF',

@@ -22,7 +22,6 @@ export function SecondScreen() {
   const { currentlyPlayingSong } = useSong();
 
   useEffect(() => {
-    console.log('Currently Playing Song:', currentlyPlayingSong);
     setPlaylistRating(null);
     setSubmitted(false);
   }, [currentlyPlayingSong]);
