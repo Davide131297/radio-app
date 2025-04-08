@@ -13,11 +13,9 @@ import {
   Animated,
 } from 'react-native';
 
+import { Button, ButtonText } from '@/components/ui/button';
 import { useSong } from '@/context/SongContext';
 import { useSongs } from '@/hooks/useSongs';
-import { useAuth } from '@/hooks/useAuth';
-
-import { Button, ButtonText } from '@/components/ui/button';
 
 const LiveIndicator = () => (
   <View style={styles.liveContainer}>
@@ -88,8 +86,6 @@ export function HomeScreen() {
   const [elapsedTime, setElapsedTime] = useState(0);
   const progressAnim = useRef(new Animated.Value(0)).current;
 
-  const { logout, error } = useAuth();
-
   useEffect(() => {
     if (!songs || songs.length === 0) return;
 
@@ -139,13 +135,6 @@ export function HomeScreen() {
     outputRange: ['0%', '100%'],
   });
 
-  async function handleLogout() {
-    await logout();
-    if (error) {
-      console.log(error);
-    }
-  }
-
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -160,9 +149,6 @@ export function HomeScreen() {
             resizeMode="contain"
           />
           <LiveIndicator />
-          <Button onPress={handleLogout} className="bg-red-500">
-            <ButtonText className="text-white">Logout</ButtonText>
-          </Button>
         </View>
 
         <View style={styles.songInfoContainer}>

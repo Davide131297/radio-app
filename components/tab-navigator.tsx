@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useState, useEffect } from 'react';
+import FourthScreen from 'screens/fourth-screen';
 import { HomeScreen } from 'screens/home-screen';
 import { SecondScreen } from 'screens/second-screen';
 import { ThirdScreen } from 'screens/third-screen';
@@ -47,9 +48,13 @@ export function TabNavigator() {
                     ? focused
                       ? 'star'
                       : 'star-outline'
-                    : focused
-                      ? 'radio'
-                      : 'radio-outline'
+                    : route.name === 'FourthScreen'
+                      ? focused
+                        ? 'person'
+                        : 'person-outline'
+                      : focused
+                        ? 'radio'
+                        : 'radio-outline'
               }
               size={22}
               color={color}
@@ -61,11 +66,18 @@ export function TabNavigator() {
       })}>
       <Tab.Screen name="Home" component={HomeScreen} options={{ tabBarLabel: 'Home' }} />
       {!isModerator && (
-        <Tab.Screen
-          name="SecondScreen"
-          component={SecondScreen}
-          options={{ tabBarLabel: 'Reviews' }}
-        />
+        <>
+          <Tab.Screen
+            name="SecondScreen"
+            component={SecondScreen}
+            options={{ tabBarLabel: 'Reviews' }}
+          />
+          <Tab.Screen
+            name="FourthScreen"
+            component={FourthScreen}
+            options={{ tabBarLabel: 'Profile' }}
+          />
+        </>
       )}
       {isModerator && (
         <Tab.Screen
