@@ -87,5 +87,10 @@ Beispiel für Styling mit NativeWind:
 
 Login Daten um auf die Inhalte der App zugreifen zu können:
 
+Hörer:
 E-Mail: demo@mail.de
+Passwort: 123456
+
+Moderator:
+E-Mail: moderator@mail.de
 Passwort: 123456
