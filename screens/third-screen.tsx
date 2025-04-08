@@ -91,44 +91,102 @@ export function ThirdScreen() {
     fetchData();
     setIsLoading(false);
 
-    // Set up real-time subscriptions for ratings and requests
     const ratingsSubscription = supabase
       .channel('ratings-changes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'ratings' }, (payload) => {
-        setRatings((prev) => {
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'ratings' },
+        async (payload) => {
           if (payload.eventType === 'INSERT') {
-            return [...prev, payload.new as Rating];
+            const newRating = payload.new as Rating;
+
+            if (newRating.song_id) {
+              const { data: songData, error: songError } = await supabase
+                .from('songs')
+                .select('title')
+                .eq('id', newRating.song_id)
+                .single();
+
+              if (!songError && songData) {
+                newRating.songs = { title: songData.title };
+              }
+            }
+
+            if (newRating.moderator_id) {
+              const { data: userData, error: userError } = await supabase
+                .from('users')
+                .select('user_name')
+                .eq('id', newRating.moderator_id)
+                .single();
+
+              if (!userError && userData) {
+                newRating.users = { user_name: userData.user_name };
+              }
+            }
+
+            setRatings((prev) => {
+              const updatedRatings = [...prev, newRating];
+              return updatedRatings.sort(
+                (a, b) =>
+                  new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime()
+              );
+            });
           } else if (payload.eventType === 'UPDATE') {
-            return prev.map((item) =>
-              item.id === payload.new.id ? (payload.new as Rating) : item
+            setRatings((prev) =>
+              prev.map((item) => (item.id === payload.new.id ? (payload.new as Rating) : item))
             );
           } else if (payload.eventType === 'DELETE') {
-            return prev.filter((item) => item.id !== payload.old.id);
+            setRatings((prev) => prev.filter((item) => item.id !== payload.old.id));
           }
-          return prev;
-        });
-      })
+        }
+      )
       .subscribe();
 
     const requestsSubscription = supabase
       .channel('requests-changes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'requests' }, (payload) => {
-        setRequests((prev) => {
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'requests' },
+        async (payload) => {
           if (payload.eventType === 'INSERT') {
-            return [...prev, payload.new as Request];
+            const newRequest = payload.new as Request;
+
+            if (newRequest.user_id) {
+              const { data: userData, error: userError } = await supabase
+                .from('users')
+                .select('user_name, role, created_at')
+                .eq('id', newRequest.user_id)
+                .single();
+
+              if (!userError && userData) {
+                newRequest.users = {
+                  user_name: userData.user_name,
+                  role: userData.role,
+                  created_at: userData.created_at,
+                };
+              } else {
+                newRequest.users = { user_name: 'Unknown', role: null, created_at: '' };
+              }
+            }
+
+            setRequests((prev) => {
+              const updatedRequests = [...prev, newRequest];
+              return updatedRequests.sort(
+                (a, b) =>
+                  new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime()
+              );
+            });
           } else if (payload.eventType === 'UPDATE') {
-            return prev.map((item) =>
-              item.id === payload.new.id ? (payload.new as Request) : item
+            setRequests((prev) =>
+              prev.map((item) => (item.id === payload.new.id ? (payload.new as Request) : item))
             );
           } else if (payload.eventType === 'DELETE') {
-            return prev.filter((item) => item.id !== payload.old.id);
+            setRequests((prev) => prev.filter((item) => item.id !== payload.old.id));
           }
-          return prev;
-        });
-      })
+        }
+      )
       .subscribe();
 
-    // Cleanup subscriptions on unmount
     return () => {
       supabase.removeChannel(ratingsSubscription);
       supabase.removeChannel(requestsSubscription);
@@ -173,7 +231,7 @@ export function ThirdScreen() {
                 <View key={rating.id} className="mb-4 rounded-lg bg-gray-50 p-4 shadow-sm">
                   {rating.moderator_id && (
                     <Text className="text-lg font-bold text-gray-800">
-                      Bewertung von: {rating.users.user_name}
+                      Bewertung für: {rating.users.user_name}
                     </Text>
                   )}
                   {rating.song_id && (
