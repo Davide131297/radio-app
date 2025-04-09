@@ -1,19 +1,8 @@
-import { Ionicons } from '@expo/vector-icons';
 import { Roboto_500Medium, Roboto_400Regular } from '@expo-google-fonts/roboto';
 import { useFonts } from 'expo-font';
 import { useEffect, useState, useRef } from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  StyleSheet,
-  SafeAreaView,
-  Image,
-  TouchableOpacity,
-  Animated,
-} from 'react-native';
+import { View, Text, ScrollView, StyleSheet, SafeAreaView, Image, Animated } from 'react-native';
 
-import { Button, ButtonText } from '@/components/ui/button';
 import { useSong } from '@/context/SongContext';
 import { useSongs } from '@/hooks/useSongs';
 
@@ -124,12 +113,6 @@ export function HomeScreen() {
     return <Text>No songs available</Text>;
   }
 
-  const handlePlay = () => console.log('Play Button Pressed');
-  const handleStop = () => console.log('Stop Button Pressed');
-  const handleShare = () => console.log('Share Button Pressed');
-  const handleVolumeUp = () => console.log('Volume Up Button Pressed');
-  const handleVolumeDown = () => console.log('Volume Down Button Pressed');
-
   const progressWidth = progressAnim.interpolate({
     inputRange: [0, 1],
     outputRange: ['0%', '100%'],
@@ -161,24 +144,6 @@ export function HomeScreen() {
             <Text style={styles.songTitle}>{currentlyPlayingSong?.title}</Text>
             <Text style={styles.artistName}>{currentlyPlayingSong?.artist}</Text>
             <Text style={styles.albumName}>{currentlyPlayingSong?.album}</Text>
-
-            <View style={styles.audioControlsContainer}>
-              <TouchableOpacity style={styles.controlButton} onPress={handlePlay}>
-                <Ionicons name="play-circle" size={40} color="#fff" />
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.controlButton} onPress={handleStop}>
-                <Ionicons name="stop-circle" size={40} color="#fff" />
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.controlButton} onPress={handleVolumeDown}>
-                <Ionicons name="volume-low" size={40} color="#fff" />
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.controlButton} onPress={handleVolumeUp}>
-                <Ionicons name="volume-high" size={40} color="#fff" />
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.controlButton} onPress={handleShare}>
-                <Ionicons name="share-social" size={40} color="#fff" />
-              </TouchableOpacity>
-            </View>
 
             <View style={styles.progressContainer}>
               <Text style={styles.timeText}>{formatTime(elapsedTime)}</Text>
@@ -281,17 +246,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Roboto_400Regular',
     color: '#ccc',
     marginBottom: 20,
-  },
-  audioControlsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 10,
-  },
-  controlButton: {
-    marginHorizontal: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   soundWaveContainer: {
     flexDirection: 'row',
